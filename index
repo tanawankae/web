@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายงานการประเมินตนเอง - หลักสูตรพยาบาลศาสตรบัณฑิต</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Noto+Serif+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Noto Serif Thai', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            width: 100vw;
+        }
+
+        .container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0;
+            padding: 40px 20px;
+            margin-bottom: 0;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: none;
+            width: 100%;
+        }
+
+        .header h1 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 700;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header .subtitle {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 400;
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0;
+            margin: 0;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px 20px;
+        }
+
+        .stat-card {
+            background: transparent;
+            padding: 30px 20px;
+            border-radius: 0;
+            text-align: center;
+            box-shadow: none;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:last-child {
+            border-right: none;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            background-color: rgba(102, 126, 234, 0.1);
+        }
+
+        .stat-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-card .number {
+            font-family: 'Kanit', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            font-family: 'Noto Serif Thai', serif;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            margin-bottom: 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 0;
+            padding: 40px 30px;
+            box-shadow: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            min-height: 400px;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card h2 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card h3 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .card h4 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .card h2 i {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .progress-bar {
+            background: #ecf0f1;
+            border-radius: 10px;
+            height: 20px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            font-family: 'Kanit', sans-serif;
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .achievement-list {
+            list-style: none;
+        }
+
+        .achievement-list li, .challenge-list li {
+            font-family: 'Noto Serif Thai', serif;
+            font-weight: 400;
+            padding: 10px 0;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .achievement-list li:last-child {
+            border-bottom: none;
+        }
+
+        .achievement-list li i {
+            color: #27ae60;
+        }
+
+        .challenge-list {
+            list-style: none;
+        }
+
+        .challenge-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .challenge-list li:last-child {
+            border-bottom: none;
+        }
+
+        .challenge-list li i {
+            color: #e74c3c;
+        }
+
+        .highlight {
+            font-family: 'Noto Serif Thai', serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .highlight h3 {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .highlight strong {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 700;
+        }
+
+        .tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 0;
+            overflow: hidden;
+            margin-bottom: 0;
+            width: 100%;
+        }
+
+        .tab {
+            font-family: 'Kanit', sans-serif;
+            flex: 1;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            background: transparent;
+            color: #7f8c8d;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 0;
+            padding: 0;
+            width: 100%;
+            min-height: calc(100vh - 300px);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-family: 'Noto Serif Thai', serif;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .metric-value {
+            font-family: 'Kanit', sans-serif;
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+            @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .container {
+                padding: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1px;
+            }
+            
+            .stat-card {
+                padding: 20px 10px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            }
+            
+            .card {
+                padding: 20px;
+                min-height: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            
+            .stat-card .number {
+                font-size: 1.8rem;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 0;
+            background: rgba(0, 0, 0, 0.2);
+            width: 100%;
+        }
+
+        .curriculum-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .curriculum-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .score-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(#667eea 0deg, #764ba2 120deg, #ecf0f1 120deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+
+        .score-circle::before {
+            content: '';
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            position: absolute;
+        }
+
+        .score-text {
+            font-family: 'Kanit', sans-serif;
+            position: relative;
+            font-weight: 700;
+            color: #2c3e50;
+            z-index: 1;
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-user-nurse"></i> รายงานการประเมินตนเอง</h1>
+            <div class="subtitle">หลักสูตรพยาบาลศาสตรบัณฑิต วิทยาลัยพยาบาลบรมราชชนนี ชัยนาท</div>
+            <div class="highlight">
+                <strong>ปีการศึกษา 2566</strong> (1 มิถุนายน 2566 - 31 พฤษภาคม 2567)<br>
+                เพื่อขอรับรองมาตรฐานตาม AUN-QA
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-star"></i></div>
+                <div class="number">3.0</div>
+                <div class="label">คะแนนโดยรวม AUN-QA</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-users"></i></div>
+                <div class="number">452</div>
+                <div class="label">จำนวนนักศึกษาทั้งหมด</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+                <div class="number">100%</div>
+                <div class="label">อัตราการสำเร็จการศึกษา</div>
+            </div>
+            <div class="stat-card">
+                <div class="icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                <div class="number">37</div>
+                <div class="label">อาจารย์ประจำหลักสูตร</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">ภาพรวม</button>
+            <button class="tab" onclick="showTab('curriculum')">หลักสูตร</button>
+            <button class="tab" onclick="showTab('quality')">คุณภาพ</button>
+            <button class="tab" onclick="showTab('results')">ผลลัพธ์</button>
+            <button class="tab" onclick="showTab('development')">การพัฒนา</button>
+        </div>
+
+        <div id="overview" class="tab-content active">
+            <div class="content-grid">
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> ประวัติและพัฒนาการ</h2>
+                    <div class="metric">
+                        <span class="metric-label">เริ่มก่อตั้ง</span>
+                        <span class="metric-value">พ.ศ. 2520</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ยกระดับเป็นวิทยาลัย</span>
+                        <span class="metric-value">พ.ศ. 2523</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">พระราชทานนาม</span>
+                        <span class="metric-value">พ.ศ. 2537</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">เข้าสังกัด สพช.</span>
+                        <span class="metric-value">พ.ศ. 2562</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-chart-bar"></i> คะแนนประเมิน AUN-QA</h2>
+                    <div class="score-circle">
+                        <div class="score-text">3.0</div>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">เกณฑ์ที่ 1-6</span>
+                        <span class="metric-value">3 คะแนน</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">เกณฑ์ที่ 7</span>
+                        <span class="metric-value">4 คะแนน</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">เกณฑ์ที่ 8</span>
+                        <span class="metric-value">2 คะแนน</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <h2><i class="fas fa-trophy"></i> จุดเด่นและความสำเร็จ</h2>
+                <ul class="achievement-list">
+                    <li><i class="fas fa-check-circle"></i> หลักสูตรพัฒนาตามมาตรฐาน OBE และ Learning Taxonomy</li>
+                    <li><i class="fas fa-check-circle"></i> นักศึกษาสำเร็จการศึกษาร้อยละ 100</li>
+                    <li><i class="fas fa-check-circle"></i> นักศึกษาได้งานทำทันทีร้อยละ 100</li>
+                    <li><i class="fas fa-check-circle"></i> ได้รับรองเป็นสำนักงานสีเขียวระดับดีเยี่ยม</li>
+                    <li><i class="fas fa-check-circle"></i> อาจารย์ได้รับตำแหน่งผู้ช่วยศาสตราจารย์ 4 คน</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="curriculum" class="tab-content">
+            <div class="curriculum-grid">
+                <div class="curriculum-card">
+                    <h3>หลักสูตรปรับปรุง พ.ศ. 2561</h3>
+                    <div class="metric">
+                        <span class="metric-label">หน่วยกิตรวม</span>
+                        <span class="metric-value">134 หน่วยกิต</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">วิชาศึกษาทั่วไป</span>
+                        <span class="metric-value">30 หน่วยกิต</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">วิชาเฉพาะ</span>
+                        <span class="metric-value">98 หน่วยกิต</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">วิชาเลือกเสรี</span>
+                        <span class="metric-value">6 หน่วยกิต</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ใช้กับนักศึกษา</span>
+                        <span class="metric-value">ชั้นปีที่ 3-4</span>
+                    </div>
+                </div>
+
+                <div class="curriculum-card">
+                    <h3>หลักสูตรปรับปรุง พ.ศ. 2565</h3>
+                    <div class="metric">
+                        <span class="metric-label">หน่วยกิตรวม</span>
+                        <span class="metric-value">124 หน่วยกิต</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">วิชาศึกษาทั่วไป</span>
+                        <span class="metric-value">30 หน่วยกิต</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">วิชาเฉพาะ</span>
+                        <span class="metric-value">88 หน่วยกิต</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">วิชาเลือกเสรี</span>
+                        <span class="metric-value">6 หน่วยกิต</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ใช้กับนักศึกษา</span>
+                        <span class="metric-value">ชั้นปีที่ 1-2</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-lightbulb"></i> นวัตกรรมหลักสูตร 2565</h2>
+                <ul class="achievement-list">
+                    <li><i class="fas fa-arrow-right"></i> ใช้แนวคิด Outcome Based Education (OBE)</li>
+                    <li><i class="fas fa-arrow-right"></i> เพิ่มรายวิชาทักษะศตวรรษที่ 21</li>
+                    <li><i class="fas fa-arrow-right"></i> เพิ่มวิชา "เราคือ สบช."</li>
+                    <li><i class="fas fa-arrow-right"></i> ลดหน่วยกิตทฤษฎี เพิ่มภาคปฏิบัติ</li>
+                    <li><i class="fas fa-arrow-right"></i> เพิ่มวิชาเลือกเสรีที่หลากหลาย</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="quality" class="tab-content">
+            <div class="content-grid">
+                <div class="card">
+                    <h2><i class="fas fa-users-cog"></i> คุณภาพอาจารย์</h2>
+                    <div class="metric">
+                        <span class="metric-label">อาจารย์ประจำทั้งหมด</span>
+                        <span class="metric-value">37 คน</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ปริญญาเอก</span>
+                        <span class="metric-value">8 คน (21.63%)</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ปริญญาโท</span>
+                        <span class="metric-value">29 คน (78.37%)</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ภาระงานตามเกณฑ์</span>
+                        <span class="metric-value">34 คน (91.89%)</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-building"></i> สิ่งอำนวยความสะดวก</h2>
+                    <div class="metric">
+                        <span class="metric-label">ห้องเรียน</span>
+                        <span class="metric-value">เพียงพอ (1:1 ตร.ม.)</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ห้องปฏิบัติการ</span>
+                        <span class="metric-value">ครบทุกสาขา</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ระบบ IT</span>
+                        <span class="metric-value">Cloud University</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ฐานข้อมูลออนไลน์</span>
+                        <span class="metric-value">CINAHL, EBSCO</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <h2><i class="fas fa-leaf"></i> สิ่งแวดล้อมและความปลอดภัย</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%;">สำนักงานสีเขียวระดับดีเยี่ยม</div>
+                </div>
+                <ul class="achievement-list">
+                    <li><i class="fas fa-recycle"></i> ระบบจัดการขยะอย่างเป็นระบบ</li>
+                    <li><i class="fas fa-water"></i> ระบบบำบัดน้ำเสียมาตรฐาน</li>
+                    <li><i class="fas fa-shield-alt"></i> ระบบป้องกันอัคคีภัยครบถ้วน</li>
+                    <li><i class="fas fa-wheelchair"></i> สิ่งอำนวยความสะดวกสำหรับผู้พิการ</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="results" class="tab-content">
+            <div class="content-grid">
+                <div class="card">
+                    <h2><i class="fas fa-graduation-cap"></i> ผลการศึกษา</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100% สำเร็จการศึกษา</div>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">บัณฑิตรุ่น 29</span>
+                        <span class="metric-value">116/118 คน</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">อัตราการคงอยู่</span>
+                        <span class="metric-value">98.31%</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">ผ่านสอบรวบยอด</span>
+                        <span class="metric-value">100%</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-briefcase"></i> การได้งานทำ</h2>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%;">100% ได้งานทันที</div>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">เงินเดือนเริ่มต้นเฉลี่ย</span>
+                        <span class="metric-value">15,497 บาท</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">รายได้เสริมเฉลี่ย</span>
+                        <span class="metric-value">14,479 บาท</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-label">สอบใบประกอบวิชาชีพ</span>
+                        <span class="metric-value">67.24%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <h2><i class="fas fa-star"></i> ความพึงพอใจผู้ใช้บัณฑิต</h2>
+                <div class="content-grid">
+                    <div>
+                        <div class="metric">
+                            <span class="metric-label">คุณภาพโดยรวม</span>
+                            <span class="metric-value">4.46/5.00</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 89.2%;">89.2%</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="metric">
+                            <span class="metric-label">คุณธรรม จริยธรรม</span>
+                            <span class="metric-value">4.71/5.00</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 94.2%;">94.2%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="development" class="tab-content">
+            <div class="content-grid">
+                <div class="card">
+                    <h2><i class="fas fa-exclamation-triangle"></i> จุดที่ควรพัฒนา</h2>
+                    <ul class="challenge-list">
+                        <li><i class="fas fa-arrow-up"></i> พัฒนาคุณวุฒิอาจารย์ให้ตรงสาขา</li>
+                        <li><i class="fas fa-arrow-up"></i> เพิ่มผลงานวิจัยระดับนานาชาติ</li>
+                        <li><i class="fas fa-arrow-up"></i> ปรับปรุงอัตราผ่านสอบใบประกอบวิชาชีพ</li>
+                        <li><i class="fas fa-arrow-up"></i> พัฒนาเครื่องมือประเมินผล</li>
+                        <li><i class="fas fa-arrow-up"></i> เพิ่ม Active Learning 90%</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h2><i class="fas fa-rocket"></i> แผนการพัฒนา 2567</h2>
+                    <ul class="achievement-list">
+                        <li><i class="fas fa-check"></i> เพิ่มช่องทางสื่อสาร PLOs</li>
+                        <li><i class="fas fa-check"></i> จัดหาหุ่นฝึกเพิ่มเติม</li>
+                        <li><i class="fas fa-check"></i> พัฒนาระบบจองออนไลน์</li>
+                        <li><i class="fas fa-check"></i> ส่งเสริมการแข่งขันระดับชาติ</li>
+                        <li><i class="fas fa-check"></i> Benchmarking สถาบันอื่น</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card full-width">
+                <h2><i class="fas fa-chart-line"></i> เป้าหมายการพัฒนาระยะยาว</h2>
+                <div class="curriculum-grid">
+                    <div class="curriculum-card">
+                        <h4>ด้านหลักสูตรและการเรียนการสอน</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 5px 0;"><i class="fas fa-target" style="color: #667eea; margin-right: 8px;"></i> Active Learning 90% ในทุกรายวิชา</li>
+                            <li style="padding: 5px 0;"><i class="fas fa-target" style="color: #667eea; margin-right: 8px;"></i> พัฒนาการประเมิน CLOs</li>
+                            <li style="padding: 5px 0;"><i class="fas fa-target" style="color: #667eea; margin-right: 8px;"></i> ปรับปรุงระบบ PLOs</li>
+                        </ul>
+                    </div>
+                    <div class="curriculum-card">
+                        <h4>ด้านบุคลากรและสิ่งอำนวยความสะดวก</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="padding: 5px 0;"><i class="fas fa-target" style="color: #764ba2; margin-right: 8px;"></i> อาจารย์ปริญญาเอกเพิ่มขึ้น</li>
+                            <li style="padding: 5px 0;"><i class="fas fa-target" style="color: #764ba2; margin-right: 8px;"></i> ระบบจองออนไลน์ครบถ้วน</li>
+                            <li style="padding: 5px 0;"><i class="fas fa-target" style="color: #764ba2; margin-right: 8px;"></i> อุปกรณ์การเรียนทันสมัย</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="highlight">
+                    <h3>วิสัยทัศน์การพัฒนา</h3>
+                    <p>มุ่งสู่การเป็นสถาบันผลิตบัณฑิทพยาบาลที่มีคุณภาพระดับสากล ด้วยการจัดการเรียนการสอนที่เน้นผู้เรียนเป็นสำคัญ และการใช้เทคโนโลยีในการพัฒนาทักษะการพยาบาลที่ทันสมัย</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><i class="fas fa-university"></i> วิทยาลัยพยาบาลบรมราชชนนี ชัยนาท</p>
+            <p>คณะพยาบาลศาสตร์ สถาบันพระบรมราชชนก กระทรวงสาธารณสุข</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">รายงานประจำปีการศึกษา 2566 | จัดทำเพื่อการประเมินคุณภาพตาม AUN-QA</p>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // ซ่อนเนื้อหาทั้งหมด
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+                // เพิ่มเนื้อหาใน tab-content ให้มี padding
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.padding = '30px';
+            });
+        });
+
+            // ลบคลาส active จากแท็บทั้งหมด
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // แสดงเนื้อหาที่เลือก
+            document.getElementById(tabName).classList.add('active');
+            
+            // เพิ่มคลาส active ให้แท็บที่เลือก
+            event.target.classList.add('active');
+        }
+
+        // เพิ่มเอฟเฟกต์การโหลด
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.card, .stat-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'all 0.6s ease';
+                    
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
+                }, index * 100);
+            });
+        });
+
+        // เอฟเฟกต์ Parallax เบาๆ
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const header = document.querySelector('.header');
+            header.style.transform = `translateY(${scrolled * 0.1}px)`;
+        });
+
+        // เอฟเฟกต์เมื่อ hover ที่การ์ด
+        document.querySelectorAll('.stat-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // ฟังก์ชันแสดงข้อมูลเพิ่มเติมเมื่อคลิก
+        document.querySelectorAll('.metric').forEach(metric => {
+            metric.addEventListener('click', function() {
+                this.style.backgroundColor = 'rgba(102, 126, 234, 0.1)';
+                setTimeout(() => {
+                    this.style.backgroundColor = 'transparent';
+                }, 300);
+            });
+        });
+    </script>
